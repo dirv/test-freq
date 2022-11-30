@@ -1,0 +1,16 @@
+{
+  "name": "test-freq",
+  "version": "1.0.0",
+  "description": "Outputs frequencies of test usages in a project",
+  "main": "index.js",
+  "type": "module",
+  "bin": "./bin/cli.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Irvine (daniel@danielirvine.com)",
+  "license": "MIT",
+  "dependencies": {
+    "immutable": "^4.1.0"
+  }
+}
