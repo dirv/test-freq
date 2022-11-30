@@ -1,0 +1,46 @@
+digraph G {
+  node [fontname = "Helvetica"];
+  edge [fontname = "Helvetica"];
+
+  root [
+    label = "Project directory";
+    shape = "rect";
+  ]
+
+  directory [
+   label = "Directory";
+   shape = "rect";
+  ]
+
+  file [
+   label = "File";
+   shape = "rect";
+  ]
+
+  describe [
+   label = "Test suite";
+   shape = "rect";
+  ]
+
+  it1 [
+   label = "Test case";
+   shape = "rect";
+  ]
+  it2 [
+   label = "Test case";
+   shape = "rect";
+  ]
+  it3 [
+   label = "Test case";
+   shape = "rect";
+  ]
+
+  root -> directory
+  directory -> directory [ label = "May be nested", style = "dashed", fontsize=10, fontname="Helvetica italic" ]
+  directory -> file
+  file -> describe
+  describe -> describe [ label = "May be nested", style = "dashed", fontsize=10, fontname="Helvetica italic" ]
+  describe -> it1
+  describe -> it2
+  describe -> it3
+}
