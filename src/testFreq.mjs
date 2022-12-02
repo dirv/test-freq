@@ -1,5 +1,6 @@
 import { discoverTestFiles, readFileAsSingleLineString } from "./files.mjs";
 import { extractTestCaseDescriptions } from "./testCaseDescriptions.mjs";
+import { extractMatchers } from "./matchers.mjs";
 import { List } from "immutable";
 
 const toOrderedCounts = descriptions =>
@@ -12,11 +13,13 @@ const toOrderedCounts = descriptions =>
 export const doIt = async () => {
   const files = await discoverTestFiles();
 
-  const testDescriptions = files
-    .map(readFileAsSingleLineString)
-    .flatMap(extractTestCaseDescriptions);
+  const extractor = extractMatchers; // TODO: choose
 
-  const counts = toOrderedCounts(testDescriptions);
+  const extractedValues = files
+    .map(readFileAsSingleLineString)
+    .flatMap(extractor);
+
+  const counts = toOrderedCounts(extractedValues);
 
   counts.forEach((count, description) => {
     console.log(`${description},${count}`);
