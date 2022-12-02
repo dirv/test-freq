@@ -1,7 +1,19 @@
+import { argv } from 'node:process';
+import { List } from "immutable";
 import { discoverTestFiles, readFileAsSingleLineString } from "./files.mjs";
 import { extractTestCaseDescriptions } from "./testCaseDescriptions.mjs";
 import { extractMatchers } from "./matchers.mjs";
-import { List } from "immutable";
+
+const extractors = {
+  "descriptions": extractTestCaseDescriptions,
+  "matchers": extractMatchers
+};
+
+const usageInstructions = [
+  "Use of the following:",
+  "",
+  ...Object.keys(extractors).map(extractorKey => `npx test-freq ${extractorKey}`)
+].join("\n");
 
 const toOrderedCounts = descriptions =>
   List(descriptions)
@@ -11,9 +23,15 @@ const toOrderedCounts = descriptions =>
     .reverse();
 
 export const doIt = async () => {
+  const extractorArg = argv[2];
+  if (!extractors[extractorArg]) {
+    console.log(usageInstructions);
+    return;
+  }
+
   const files = await discoverTestFiles();
 
-  const extractor = extractMatchers; // TODO: choose
+  const extractor = extractors[extractorArg];
 
   const extractedValues = files
     .map(readFileAsSingleLineString)
